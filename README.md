@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 掼蛋大赛计分
 
 本项目包含掼蛋大赛的微信小程序前端代码和Node.js后端服务。
@@ -43,3 +44,7 @@ npm run server:dev
 
 - 数据库使用 `data/db.json` 文件模拟，方便部署和演示，无需安装额外数据库软件。
 - 小程序中的 API 地址默认为 `http://localhost:3002/api`，如在真机调试，请将 `miniprogram/app.js` 中的 IP 地址修改为电脑的局域网 IP。
+=======
+# guandan
+掼蛋计分
+>>>>>>> 7d7601bec99403250f8cb7d43143728b13a8a2dc
