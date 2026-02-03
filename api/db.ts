@@ -2,7 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 
-const DB_PATH = path.join(process.cwd(), 'data', 'db.json');
+const DATA_DIR = path.join(process.cwd(), 'data');
+const DB_PATH = path.join(DATA_DIR, 'db.json');
+
+// Ensure data directory exists
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
 
 export interface Team {
   teamId: string;
@@ -31,141 +37,173 @@ const defaultDb: Database = {
   matches: []
 };
 
-// Ensure DB file exists
-if (!fs.existsSync(DB_PATH)) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(defaultDb, null, 2));
+// Simple Async Mutex to prevent concurrent read-modify-write issues
+class Mutex {
+  private queue: Promise<any> = Promise.resolve();
+
+  async acquire(): Promise<() => void> {
+    let release: () => void;
+    const next = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const current = this.queue;
+    this.queue = this.queue.then(() => next);
+    await current;
+    return release!;
+  }
 }
 
-function readDb(): Database {
+const dbLock = new Mutex();
+
+async function readDb(): Promise<Database> {
   try {
-    const data = fs.readFileSync(DB_PATH, 'utf-8');
+    if (!fs.existsSync(DB_PATH)) {
+      return defaultDb;
+    }
+    const data = await fs.promises.readFile(DB_PATH, 'utf-8');
     return JSON.parse(data);
   } catch (error) {
+    console.error('Read DB error:', error);
     return defaultDb;
   }
 }
 
-function writeDb(data: Database) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
+async function writeDb(data: Database) {
+  const tempPath = `${DB_PATH}.tmp`;
+  try {
+    // Atomic write: write to temp file then rename
+    await fs.promises.writeFile(tempPath, JSON.stringify(data, null, 2), 'utf-8');
+    await fs.promises.rename(tempPath, DB_PATH);
+  } catch (error) {
+    console.error('Write DB error:', error);
+    if (fs.existsSync(tempPath)) {
+      await fs.promises.unlink(tempPath).catch(() => {});
+    }
+    throw error;
+  }
 }
 
 export const db = {
-  findTeamByName: (name: string) => {
-    const { teams } = readDb();
+  findTeamByName: async (name: string) => {
+    const { teams } = await readDb();
     return teams.find(t => t.teamName === name);
   },
   
-  createTeam: (name: string) => {
-    const data = readDb();
-    const newTeam: Team = {
-      teamId: crypto.randomUUID(),
-      teamName: name,
-      createdAt: new Date().toISOString()
-    };
-    data.teams.push(newTeam);
-    writeDb(data);
-    return newTeam;
+  createTeam: async (name: string) => {
+    const release = await dbLock.acquire();
+    try {
+      const data = await readDb();
+      const newTeam: Team = {
+        teamId: crypto.randomUUID(),
+        teamName: name,
+        createdAt: new Date().toISOString()
+      };
+      data.teams.push(newTeam);
+      await writeDb(data);
+      return newTeam;
+    } finally {
+      release();
+    }
   },
 
-  updateTeam: (teamId: string, updates: { teamName?: string, members?: string }) => {
-    const data = readDb();
-    const teamIndex = data.teams.findIndex(t => t.teamId === teamId);
-    
-    if (teamIndex === -1) {
-      throw new Error('Team not found');
-    }
-
-    // Check if new name is already taken by another team
-    if (updates.teamName) {
-      const existingTeam = data.teams.find(t => t.teamName === updates.teamName && t.teamId !== teamId);
-      if (existingTeam) {
-        throw new Error('Team name already exists');
+  updateTeam: async (teamId: string, updates: { teamName?: string, members?: string }) => {
+    const release = await dbLock.acquire();
+    try {
+      const data = await readDb();
+      const teamIndex = data.teams.findIndex(t => t.teamId === teamId);
+      
+      if (teamIndex === -1) {
+        throw new Error('Team not found');
       }
-      data.teams[teamIndex].teamName = updates.teamName;
-    }
 
-    if (updates.members !== undefined) {
-      data.teams[teamIndex].members = updates.members;
-    }
+      if (updates.teamName) {
+        const existingTeam = data.teams.find(t => t.teamName === updates.teamName && t.teamId !== teamId);
+        if (existingTeam) {
+          throw new Error('Team name already exists');
+        }
+        data.teams[teamIndex].teamName = updates.teamName;
+      }
 
-    writeDb(data);
-    return data.teams[teamIndex];
+      if (updates.members !== undefined) {
+        data.teams[teamIndex].members = updates.members;
+      }
+
+      await writeDb(data);
+      return data.teams[teamIndex];
+    } finally {
+      release();
+    }
   },
   
-  findTeamById: (id: string) => {
-    const { teams } = readDb();
+  findTeamById: async (id: string) => {
+    const { teams } = await readDb();
     return teams.find(t => t.teamId === id);
   },
 
-  createMatch: (matchData: Omit<Match, 'matchId' | 'createdAt' | 'score'>) => {
-    const data = readDb();
-    
-    // Calculate score
-    // 2=2, ..., K=13, A=14
-    // Input level is 2-14. Score is same as level.
-    const score = matchData.level;
+  createMatch: async (matchData: Omit<Match, 'matchId' | 'createdAt' | 'score'>) => {
+    const release = await dbLock.acquire();
+    try {
+      const data = await readDb();
+      const score = matchData.level;
 
-    // Check if match already exists for this team and round
-    const existingIndex = data.matches.findIndex(m => m.teamId === matchData.teamId && m.round === matchData.round);
-    
-    if (existingIndex !== -1) {
-      // Update existing match
-      data.matches[existingIndex] = {
-        ...data.matches[existingIndex],
-        opponentName: matchData.opponentName,
-        level: matchData.level,
-        score,
-        // Keep original ID and creation time, or update creation time if needed. 
-        // Let's keep original ID but update contents.
-      };
-      writeDb(data);
-      return data.matches[existingIndex];
-    } else {
-      // Create new match
-      const newMatch: Match = {
-        matchId: crypto.randomUUID(),
-        ...matchData,
-        score,
-        createdAt: new Date().toISOString()
-      };
-      data.matches.push(newMatch);
-      writeDb(data);
-      return newMatch;
+      const existingIndex = data.matches.findIndex(m => m.teamId === matchData.teamId && m.round === matchData.round);
+      
+      if (existingIndex !== -1) {
+        data.matches[existingIndex] = {
+          ...data.matches[existingIndex],
+          opponentName: matchData.opponentName,
+          level: matchData.level,
+          score,
+        };
+        await writeDb(data);
+        return data.matches[existingIndex];
+      } else {
+        const newMatch: Match = {
+          matchId: crypto.randomUUID(),
+          ...matchData,
+          score,
+          createdAt: new Date().toISOString()
+        };
+        data.matches.push(newMatch);
+        await writeDb(data);
+        return newMatch;
+      }
+    } finally {
+      release();
     }
   },
 
-  getMatchesByTeam: (teamId: string) => {
-    const { matches } = readDb();
+  getMatchesByTeam: async (teamId: string) => {
+    const { matches } = await readDb();
     return matches.filter(m => m.teamId === teamId);
   },
 
-  getAllMatches: () => {
-    const { matches } = readDb();
+  getAllMatches: async () => {
+    const { matches } = await readDb();
     return matches;
   },
 
-  getAllTeams: () => {
-    const { teams } = readDb();
+  getAllTeams: async () => {
+    const { teams } = await readDb();
     return teams;
   },
   
-  getLeaderboard: () => {
-    const { teams, matches } = readDb();
+  getLeaderboard: async () => {
+    const data = await readDb();
+    const { teams, matches } = data;
     
-    // Create a helper map to quickly find team IDs by name
     const teamNameMap = new Map(teams.map(t => [t.teamName, t.teamId]));
 
     const leaderboard = teams.map(team => {
       const teamMatches = matches.filter(m => m.teamId === team.teamId);
       const totalScore = teamMatches.reduce((sum, m) => sum + m.score, 0);
       return {
-        rank: 0, // Will assign later
+        rank: 0,
         teamId: team.teamId,
         teamName: team.teamName,
         members: team.members,
         totalScore,
         rounds: teamMatches.map(m => {
-          // Find opponent score
           let opponentScore = null;
           const opponentId = teamNameMap.get(m.opponentName);
           
@@ -188,10 +226,7 @@ export const db = {
       };
     });
     
-    // Sort by total score desc
     leaderboard.sort((a, b) => b.totalScore - a.totalScore);
-    
-    // Assign ranks
     leaderboard.forEach((item, index) => {
       item.rank = index + 1;
     });
@@ -199,8 +234,13 @@ export const db = {
     return leaderboard;
   },
 
-  resetDatabase: () => {
-    writeDb(defaultDb);
-    return true;
+  resetDatabase: async () => {
+    const release = await dbLock.acquire();
+    try {
+      await writeDb(defaultDb);
+      return true;
+    } finally {
+      release();
+    }
   }
 };

@@ -4,7 +4,7 @@
       "teamId": "1c1cac83-ca06-4732-a315-b49ce2faa058",
       "teamName": "狼",
       "createdAt": "2026-02-03T01:39:02.963Z",
-      "members": "张三、李四"
+      "members": "张三、王五"
     },
     {
       "teamId": "a27c3829-b70b-4b6d-8747-11c779642dd2",
@@ -19,7 +19,8 @@
     {
       "teamId": "4be2466a-a5b7-4d03-bc4e-d5a07cec212a",
       "teamName": "兔",
-      "createdAt": "2026-02-03T01:48:11.016Z"
+      "createdAt": "2026-02-03T01:48:11.016Z",
+      "members": "赵六"
     },
     {
       "teamId": "8327c194-8000-4630-8eb8-03ca3f34ad74",

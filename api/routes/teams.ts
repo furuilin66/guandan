@@ -4,9 +4,9 @@ import { db } from '../db';
 const router = Router();
 
 // Get all teams
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const teams = db.getAllTeams();
+    const teams = await db.getAllTeams();
     res.json(teams);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 });
 
 // Team Login
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const { teamName } = req.body;
   
   if (!teamName) {
@@ -22,11 +22,11 @@ router.post('/login', (req, res) => {
   }
 
   try {
-    let team = db.findTeamByName(teamName);
+    let team = await db.findTeamByName(teamName);
     
     if (!team) {
       // Auto register if not found
-      team = db.createTeam(teamName);
+      team = await db.createTeam(teamName);
     }
 
     res.json({
@@ -41,7 +41,7 @@ router.post('/login', (req, res) => {
 });
 
 // Update Team (Name or Members)
-router.put('/:teamId', (req, res) => {
+router.put('/:teamId', async (req, res) => {
   const { teamId } = req.params;
   const { teamName, members } = req.body;
 
@@ -50,7 +50,7 @@ router.put('/:teamId', (req, res) => {
   }
 
   try {
-    const updatedTeam = db.updateTeam(teamId, { teamName, members });
+    const updatedTeam = await db.updateTeam(teamId, { teamName, members });
     res.json(updatedTeam);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
