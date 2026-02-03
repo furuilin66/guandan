@@ -42,6 +42,16 @@
   margin-bottom: 20rpx;
   font-weight: 500;
 }
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.refresh-btn {
+  font-size: 24rpx;
+  color: #1A472A;
+  padding: 10rpx 0;
+}
 .picker {
   padding: 20rpx;
   background: #f8f8f8;

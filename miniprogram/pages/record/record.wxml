@@ -17,18 +17,7 @@
   </view>
 
   <view class="card">
-    <view class="section-title">对手队伍</view>
-    <picker class="opponent-picker" range="{{teams}}" range-key="teamName" bindchange="bindOpponentPickerChange">
-      <view class="picker picker-margin">
-        <text wx:if="{{opponentIndex == -1}}">选择已有对手 ▼</text>
-        <text wx:else>已选择: {{teams[opponentIndex].teamName}}</text>
-      </view>
-    </picker>
-    <input class="input-item" placeholder="或输入对手队伍名称" bindinput="bindOpponentInput" value="{{opponentName}}" />
-  </view>
-
-  <view class="card">
-    <view class="section-title">本局打到级别（得分）</view>
+    <view class="section-title">本局得分</view>
     <view class="level-grid">
       <block wx:for="{{levels}}" wx:key="value">
         <view 
@@ -40,6 +29,19 @@
         </view>
       </block>
     </view>
+  </view>
+
+  <view class="card">
+    <view class="section-header">
+      <view class="section-title">对手队伍</view>
+      <view class="refresh-btn" bindtap="handleRefreshTeams">刷新</view>
+    </view>
+    <picker class="opponent-picker" range="{{teams}}" range-key="teamName" bindchange="bindOpponentPickerChange">
+      <view class="picker picker-margin">
+        <text wx:if="{{opponentIndex == -1}}">请选择对手队伍 ▼</text>
+        <text wx:else>已选择: {{teams[opponentIndex].teamName}}</text>
+      </view>
+    </picker>
   </view>
 
   <button class="btn-primary submit-btn" bindtap="handleSubmit">提交成绩</button>

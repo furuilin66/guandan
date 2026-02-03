@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '@/api';
 import { useStore } from '@/store';
 import { Team, Match } from '@/types';
+import { RefreshCw } from 'lucide-react';
 
 export default function Record() {
   const navigate = useNavigate();
@@ -71,12 +72,12 @@ export default function Record() {
 
   const handleSubmit = async () => {
     if (!teamInfo) return;
-    if (!opponentName) {
-      alert('请选择或输入对手队伍');
+    if (!selectedLevel) {
+      alert('请选择本局得分');
       return;
     }
-    if (!selectedLevel) {
-      alert('请选择本局打到的级别');
+    if (!opponentName) {
+      alert('请选择对手队伍');
       return;
     }
 
@@ -166,28 +167,7 @@ export default function Record() {
       </div>
 
       <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
-        <h3 className="text-gray-800 font-medium mb-3">对手队伍</h3>
-        <select
-          className="w-full h-10 bg-gray-50 border-none rounded px-3 mb-3"
-          value={opponentName}
-          onChange={(e) => setOpponentName(e.target.value)}
-        >
-          <option value="">选择已有对手 ▼</option>
-          {teams.map((t) => (
-            <option key={t.teamId} value={t.teamName}>{t.teamName}</option>
-          ))}
-        </select>
-        <input
-          type="text"
-          placeholder="或输入对手队伍名称"
-          className="w-full h-10 bg-gray-50 border-none rounded px-3"
-          value={opponentName}
-          onChange={(e) => setOpponentName(e.target.value)}
-        />
-      </div>
-
-      <div className="bg-white rounded-lg p-4 mb-6 shadow-sm">
-        <h3 className="text-gray-800 font-medium mb-3">本局打到级别（得分）</h3>
+        <h3 className="text-gray-800 font-medium mb-3">本局得分</h3>
         <div className="grid grid-cols-5 gap-2">
           {levels.map((item) => (
             <button
@@ -203,6 +183,30 @@ export default function Record() {
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="bg-white rounded-lg p-4 mb-6 shadow-sm">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-gray-800 font-medium">对手队伍</h3>
+          <button 
+            onClick={fetchData}
+            className="flex items-center gap-1 text-xs text-green-800 active:opacity-70"
+            title="刷新对手列表"
+          >
+            <RefreshCw size={14} />
+            刷新
+          </button>
+        </div>
+        <select
+          className="w-full h-10 bg-gray-50 border-none rounded px-3"
+          value={opponentName}
+          onChange={(e) => setOpponentName(e.target.value)}
+        >
+          <option value="">请选择对手队伍 ▼</option>
+          {teams.map((t) => (
+            <option key={t.teamId} value={t.teamName}>{t.teamName}</option>
+          ))}
+        </select>
       </div>
 
       <button

@@ -72,6 +72,11 @@ Page({
     })
   },
 
+  handleRefreshTeams() {
+    this.fetchTeams();
+    wx.showToast({ title: '已刷新对手列表', icon: 'none' });
+  },
+
   handleLogout() {
     app.globalData.teamId = null;
     app.globalData.teamName = null;
@@ -94,13 +99,6 @@ Page({
     })
   },
 
-  bindOpponentInput(e) {
-    this.setData({
-      opponentName: e.detail.value,
-      opponentIndex: -1 // Reset picker if user types manually
-    })
-  },
-
   selectLevel(e) {
     this.setData({
       selectedLevel: e.currentTarget.dataset.value
@@ -109,12 +107,12 @@ Page({
 
   handleSubmit() {
     const { roundIndex, opponentName, selectedLevel } = this.data;
-    if (!opponentName) {
-      wx.showToast({ title: '请输入对手队伍', icon: 'none' });
+    if (!selectedLevel) {
+      wx.showToast({ title: '请选择本局得分', icon: 'none' });
       return;
     }
-    if (!selectedLevel) {
-      wx.showToast({ title: '请选择本局级别', icon: 'none' });
+    if (!opponentName) {
+      wx.showToast({ title: '请选择对手队伍', icon: 'none' });
       return;
     }
 
