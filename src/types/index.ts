@@ -19,6 +19,7 @@ export interface LeaderboardItem {
   rank: number;
   teamId: string;
   teamName: string;
+  members?: string;
   totalScore: number;
   rounds: {
     round: number;

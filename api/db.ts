@@ -7,6 +7,7 @@ const DB_PATH = path.join(process.cwd(), 'data', 'db.json');
 export interface Team {
   teamId: string;
   teamName: string;
+  members?: string;
   createdAt: string;
 }
 
@@ -66,7 +67,7 @@ export const db = {
     return newTeam;
   },
 
-  updateTeamName: (teamId: string, newName: string) => {
+  updateTeam: (teamId: string, updates: { teamName?: string, members?: string }) => {
     const data = readDb();
     const teamIndex = data.teams.findIndex(t => t.teamId === teamId);
     
@@ -75,12 +76,18 @@ export const db = {
     }
 
     // Check if new name is already taken by another team
-    const existingTeam = data.teams.find(t => t.teamName === newName && t.teamId !== teamId);
-    if (existingTeam) {
-      throw new Error('Team name already exists');
+    if (updates.teamName) {
+      const existingTeam = data.teams.find(t => t.teamName === updates.teamName && t.teamId !== teamId);
+      if (existingTeam) {
+        throw new Error('Team name already exists');
+      }
+      data.teams[teamIndex].teamName = updates.teamName;
     }
 
-    data.teams[teamIndex].teamName = newName;
+    if (updates.members !== undefined) {
+      data.teams[teamIndex].members = updates.members;
+    }
+
     writeDb(data);
     return data.teams[teamIndex];
   },
@@ -155,6 +162,7 @@ export const db = {
         rank: 0, // Will assign later
         teamId: team.teamId,
         teamName: team.teamName,
+        members: team.members,
         totalScore,
         rounds: teamMatches.map(m => {
           // Find opponent score

@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware';
 interface TeamInfo {
   teamId: string;
   teamName: string;
+  members?: string;
 }
 
 interface AppState {

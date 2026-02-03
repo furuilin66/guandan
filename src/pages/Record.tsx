@@ -32,6 +32,9 @@ export default function Record() {
   const [matchHistory, setMatchHistory] = useState<Match[]>([]);
   const [isEditingTeam, setIsEditingTeam] = useState(false);
   const [newTeamName, setNewTeamName] = useState('');
+  const [members, setMembers] = useState('');
+  const [isEditingMembers, setIsEditingMembers] = useState(false);
+  const setTeamInfo = useStore((state) => state.setTeamInfo);
 
   useEffect(() => {
     if (!teamInfo) {
@@ -52,6 +55,17 @@ export default function Record() {
       setMatchHistory(historyData.matches);
     } catch (error) {
       console.error('Fetch data error', error);
+    }
+  };
+
+  const handleUpdateMembers = async () => {
+    if (!teamInfo) return;
+    try {
+      const updatedTeam = await api.updateTeam(teamInfo.teamId, { members });
+      setTeamInfo({ ...teamInfo, members: updatedTeam.members });
+      setIsEditingMembers(false);
+    } catch (error: any) {
+      alert(error.message);
     }
   };
 
@@ -92,12 +106,50 @@ export default function Record() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 pb-20">
-      <div className="flex justify-between items-center py-4 mb-4">
-        <div className="flex items-center">
+      <div className="flex justify-between items-start py-4 mb-4">
+        <div className="flex flex-col">
           <span className="text-green-900 font-bold text-lg">当前队伍: {teamInfo?.teamName}</span>
-          {/* Web version might not need name edit for simplicity, or add later */}
+          
+          <div className="mt-2 text-sm text-gray-600">
+            {isEditingMembers ? (
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={members}
+                  onChange={(e) => setMembers(e.target.value)}
+                  placeholder="输入参赛选手姓名"
+                  className="border border-gray-300 rounded px-2 py-1 w-40"
+                />
+                <button 
+                  onClick={handleUpdateMembers}
+                  className="text-green-800 font-medium"
+                >
+                  保存
+                </button>
+                <button 
+                  onClick={() => {
+                    setIsEditingMembers(false);
+                    setMembers(teamInfo?.members || '');
+                  }}
+                  className="text-gray-500"
+                >
+                  取消
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center">
+                <span>参赛选手: {teamInfo?.members || '未设置'}</span>
+                <button 
+                  onClick={() => setIsEditingMembers(true)}
+                  className="ml-2 text-green-800 underline text-xs"
+                >
+                  添加/修改
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-        <button onClick={handleLogout} className="text-gray-500 text-sm">退出</button>
+        <button onClick={handleLogout} className="text-gray-500 text-sm mt-1">退出</button>
       </div>
 
       <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">

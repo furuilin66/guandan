@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { db } from '../db.js';
+import { db } from '../db';
 
 const router = Router();
 
@@ -32,6 +32,7 @@ router.post('/login', (req, res) => {
     res.json({
       teamId: team.teamId,
       teamName: team.teamName,
+      members: team.members,
       token: team.teamId
     });
   } catch (error: any) {
@@ -39,17 +40,17 @@ router.post('/login', (req, res) => {
   }
 });
 
-// Update Team Name
+// Update Team (Name or Members)
 router.put('/:teamId', (req, res) => {
   const { teamId } = req.params;
-  const { teamName } = req.body;
+  const { teamName, members } = req.body;
 
-  if (!teamName) {
-    return res.status(400).json({ error: 'New team name is required' });
+  if (!teamName && members === undefined) {
+    return res.status(400).json({ error: 'No updates provided' });
   }
 
   try {
-    const updatedTeam = db.updateTeamName(teamId, teamName);
+    const updatedTeam = db.updateTeam(teamId, { teamName, members });
     res.json(updatedTeam);
   } catch (error: any) {
     res.status(500).json({ error: error.message });

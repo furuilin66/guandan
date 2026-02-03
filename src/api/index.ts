@@ -58,5 +58,18 @@ export const api = {
     return res.json();
   },
   
-  getExportUrl: () => `${API_BASE_URL}/matches/leaderboard/export`
+  getExportUrl: () => `${API_BASE_URL}/matches/leaderboard/export`,
+
+  updateTeam: async (teamId: string, data: { teamName?: string; members?: string }) => {
+    const res = await fetch(`${API_BASE_URL}/teams/${teamId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.error || '更新失败');
+    }
+    return res.json();
+  }
 };

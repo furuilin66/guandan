@@ -52,6 +52,7 @@ export default function Leaderboard() {
                 </div>
                 <div className="w-24 px-1 flex items-center text-gray-800 flex-shrink-0 py-2 break-words">
                   {item.teamName}
+                  {item.members && <span className="text-xs text-gray-500 block">({item.members})</span>}
                 </div>
                 <div className="flex-1 px-1 py-2 text-xs text-gray-600">
                   {item.rounds.length > 0 ? (
