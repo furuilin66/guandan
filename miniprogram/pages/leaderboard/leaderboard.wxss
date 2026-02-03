@@ -1,0 +1,93 @@
+.container {
+  padding: 20rpx;
+  display: block;
+  min-height: 100vh;
+  padding-bottom: 120rpx; /* Add padding for bottom button */
+}
+.header-title {
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #1A472A;
+  margin-bottom: 30rpx;
+}
+.ranking-list {
+  background: white;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+.list-header {
+  display: flex;
+  padding: 20rpx 10rpx;
+  background: #f0f0f0;
+  font-weight: bold;
+  font-size: 26rpx;
+  color: #666;
+}
+.list-item {
+  border-bottom: 1rpx solid #eee;
+}
+.main-info {
+  display: flex;
+  padding: 20rpx 10rpx;
+  align-items: center;
+}
+.col-rank {
+  width: 12%;
+  text-align: center;
+  font-weight: bold;
+  color: #1A472A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.medal-text {
+  font-size: 40rpx;
+}
+.col-name {
+  width: 25%;
+  padding-left: 10rpx;
+  font-size: 26rpx;
+  word-break: break-all;
+}
+.col-score {
+  width: 13%;
+  text-align: center;
+  font-weight: bold;
+  color: #FFD700;
+  font-size: 30rpx;
+}
+.col-records {
+  width: 50%;
+  font-size: 22rpx;
+  color: #666;
+  padding-left: 10rpx;
+}
+.record-item {
+  margin-bottom: 4rpx;
+  line-height: 1.2;
+}
+.no-data-text {
+  color: #ccc;
+}
+.detail-info {
+  background: #fafafa;
+  padding: 20rpx 40rpx;
+  font-size: 26rpx;
+  color: #666;
+  display: none; /* Hide detail expansion as it's now inline */
+}
+.export-btn {
+  position: fixed;
+  bottom: 40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1A472A;
+  color: white;
+  width: 80%;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  box-shadow: 0 4rpx 12rpx rgba(26, 71, 42, 0.3);
+  z-index: 100;
+}

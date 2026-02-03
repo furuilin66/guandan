@@ -1,0 +1,71 @@
+{
+  "teams": [
+    {
+      "teamId": "1c1cac83-ca06-4732-a315-b49ce2faa058",
+      "teamName": "狼",
+      "createdAt": "2026-02-03T01:39:02.963Z"
+    },
+    {
+      "teamId": "a27c3829-b70b-4b6d-8747-11c779642dd2",
+      "teamName": "虎",
+      "createdAt": "2026-02-03T01:39:39.105Z"
+    },
+    {
+      "teamId": "0aa8afa8-29e4-4fb2-8c30-fa7a3c753162",
+      "teamName": "猫",
+      "createdAt": "2026-02-03T01:47:49.955Z"
+    },
+    {
+      "teamId": "4be2466a-a5b7-4d03-bc4e-d5a07cec212a",
+      "teamName": "兔",
+      "createdAt": "2026-02-03T01:48:11.016Z"
+    }
+  ],
+  "matches": [
+    {
+      "matchId": "1bd17698-e967-427b-a8bf-a28d22b5c760",
+      "teamId": "1c1cac83-ca06-4732-a315-b49ce2faa058",
+      "round": 1,
+      "opponentName": "虎",
+      "level": 4,
+      "score": 4,
+      "createdAt": "2026-02-03T01:39:17.777Z"
+    },
+    {
+      "matchId": "5892813d-2fb4-41af-9881-ab7e5de30502",
+      "teamId": "a27c3829-b70b-4b6d-8747-11c779642dd2",
+      "round": 1,
+      "opponentName": "狼",
+      "level": 2,
+      "score": 2,
+      "createdAt": "2026-02-03T01:41:19.019Z"
+    },
+    {
+      "matchId": "84bf366f-050a-4203-bbcc-fd4562a1cc53",
+      "teamId": "a27c3829-b70b-4b6d-8747-11c779642dd2",
+      "round": 2,
+      "opponentName": "狼",
+      "level": 10,
+      "score": 10,
+      "createdAt": "2026-02-03T01:41:48.510Z"
+    },
+    {
+      "matchId": "dbdf966d-2f9e-4816-b671-94b973b521fe",
+      "teamId": "4be2466a-a5b7-4d03-bc4e-d5a07cec212a",
+      "round": 1,
+      "opponentName": "猫",
+      "level": 11,
+      "score": 11,
+      "createdAt": "2026-02-03T01:48:25.401Z"
+    },
+    {
+      "matchId": "1c5e4054-f8aa-4f19-95cf-1aa468464aa4",
+      "teamId": "0aa8afa8-29e4-4fb2-8c30-fa7a3c753162",
+      "round": 1,
+      "opponentName": "兔",
+      "level": 4,
+      "score": 4,
+      "createdAt": "2026-02-03T01:48:59.211Z"
+    }
+  ]
+}

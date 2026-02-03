@@ -1,0 +1,36 @@
+/**
+ * local server entry file, for local development
+ */
+import app from './app.js';
+
+/**
+ * start server with port
+ */
+const PORT = process.env.PORT || 3002;
+// Listen on all network interfaces (0.0.0.0)
+const server = app.listen(Number(PORT), '0.0.0.0', () => {
+  console.log(`Server ready on port ${PORT}`);
+  console.log(`Access locally via: http://localhost:${PORT}`);
+  console.log(`Access on network via: http://<your-ip>:${PORT}`);
+});
+
+/**
+ * close server
+ */
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received');
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT signal received');
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
+});
+
+export default app;

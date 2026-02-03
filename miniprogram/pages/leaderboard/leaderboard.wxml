@@ -1,0 +1,37 @@
+<view class="container">
+  <view class="header-title">排行榜</view>
+
+  <view class="ranking-list">
+    <view class="list-header">
+      <text class="col-rank">排名</text>
+      <text class="col-name">队伍</text>
+      <text class="col-records">参赛记录</text>
+      <text class="col-score">总分</text>
+    </view>
+
+    <block wx:for="{{rankings}}" wx:key="teamId">
+      <view class="list-item" bindtap="toggleDetail" data-index="{{index}}">
+        <view class="main-info">
+          <view class="col-rank">
+            <text class="medal-text" wx:if="{{item.rank === 1}}">🥇</text>
+            <text class="medal-text" wx:elif="{{item.rank === 2}}">🥈</text>
+            <text class="medal-text" wx:elif="{{item.rank === 3}}">🥉</text>
+            <text wx:else>{{item.rank}}</text>
+          </view>
+          <text class="col-name">{{item.teamName}}</text>
+          <view class="col-records">
+            <block wx:for="{{item.rounds}}" wx:for-item="round" wx:key="round">
+              <view class="record-item">
+                <text>R{{round.round}}: {{item.teamName}}({{round.score}}) VS {{round.opponent}}{{round.opponentScore ? '(' + round.opponentScore + ')' : ''}}</text>
+              </view>
+            </block>
+            <text wx:if="{{item.rounds.length === 0}}" class="no-data-text">-</text>
+          </view>
+          <text class="col-score">{{item.totalScore}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+  
+  <button class="export-btn" bindtap="exportToExcel">导出Excel</button>
+</view>

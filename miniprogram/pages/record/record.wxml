@@ -1,0 +1,65 @@
+<view class="container">
+  <view class="header">
+    <view class="team-info" bindtap="handleEditTeamName">
+      <text class="team-name">当前队伍: {{teamName}}</text>
+      <text class="edit-icon">✎</text>
+    </view>
+    <text class="logout" bindtap="handleLogout">退出</text>
+  </view>
+
+  <view class="card">
+    <view class="section-title">选择轮次</view>
+    <picker bindchange="bindRoundChange" value="{{roundIndex}}" range="{{rounds}}">
+      <view class="picker">
+        当前选择：{{rounds[roundIndex]}}
+      </view>
+    </picker>
+  </view>
+
+  <view class="card">
+    <view class="section-title">对手队伍</view>
+    <picker class="opponent-picker" range="{{teams}}" range-key="teamName" bindchange="bindOpponentPickerChange">
+      <view class="picker picker-margin">
+        <text wx:if="{{opponentIndex == -1}}">选择已有对手 ▼</text>
+        <text wx:else>已选择: {{teams[opponentIndex].teamName}}</text>
+      </view>
+    </picker>
+    <input class="input-item" placeholder="或输入对手队伍名称" bindinput="bindOpponentInput" value="{{opponentName}}" />
+  </view>
+
+  <view class="card">
+    <view class="section-title">本局打到级别（得分）</view>
+    <view class="level-grid">
+      <block wx:for="{{levels}}" wx:key="value">
+        <view 
+          class="level-item {{selectedLevel === item.value ? 'selected' : ''}}" 
+          bindtap="selectLevel" 
+          data-value="{{item.value}}"
+        >
+          {{item.label}}
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <button class="btn-primary submit-btn" bindtap="handleSubmit">提交成绩</button>
+
+  <view class="history-section" wx:if="{{matchHistory.length > 0}}">
+    <view class="section-title history-title">已提交成绩</view>
+    <view class="history-list">
+      <block wx:for="{{matchHistory}}" wx:key="matchId">
+        <view class="history-item">
+          <text class="history-round">第{{item.round}}轮</text>
+          <text class="history-vs">{{teamName}}({{item.score}}分) VS {{item.opponentName}}{{item.opponentScore ? '(' + item.opponentScore + '分)' : ''}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+  
+  <view class="footer-link" bindtap="goToLeaderboard">查看排行榜</view>
+
+  <!-- Edit Team Name Modal -->
+  <modal hidden="{{!isEditingTeam}}" title="修改队伍名称" confirm-text="保存" cancel-text="取消" bindcancel="cancelEditTeam" bindconfirm="saveTeamName">
+    <input class="modal-input" placeholder="请输入新队伍名称" value="{{newTeamName}}" bindinput="bindNewTeamNameInput"/>
+  </modal>
+</view>

@@ -1,0 +1,131 @@
+.container {
+  padding: 20rpx;
+  display: block;
+  height: auto;
+  min-height: 100vh;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  margin-bottom: 20rpx;
+}
+.team-info {
+  display: flex;
+  align-items: center;
+}
+.team-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1A472A;
+}
+.edit-icon {
+  margin-left: 10rpx;
+  font-size: 32rpx;
+  color: #666;
+}
+.logout {
+  font-size: 28rpx;
+  color: #666;
+}
+.card {
+  background: white;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+.section-title {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+  font-weight: 500;
+}
+.picker {
+  padding: 20rpx;
+  background: #f8f8f8;
+  border-radius: 8rpx;
+  text-align: center;
+}
+.picker-margin {
+  margin-bottom: 20rpx;
+}
+.input-item {
+  padding: 20rpx;
+  background: #f8f8f8;
+  border-radius: 8rpx;
+  width: auto;
+  border: none;
+}
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20rpx;
+}
+.level-item {
+  background: #f8f8f8;
+  padding: 20rpx 0;
+  text-align: center;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+.level-item.selected {
+  background: #1A472A;
+  color: white;
+}
+.submit-btn {
+  margin-top: 40rpx;
+  width: 100%;
+}
+.footer-link {
+  text-align: center;
+  margin-top: 40rpx;
+  color: #1A472A;
+  text-decoration: underline;
+  padding-bottom: 40rpx;
+}
+.modal-input {
+  border: 1rpx solid #ddd;
+  padding: 10rpx;
+  border-radius: 4rpx;
+  margin: 20rpx 0;
+}
+.history-section {
+  margin-top: 40rpx;
+}
+.history-title {
+  padding-left: 10rpx;
+  border-left: 6rpx solid #1A472A;
+  margin-bottom: 20rpx;
+}
+.history-list {
+  background: white;
+  border-radius: 12rpx;
+  padding: 0 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+  font-size: 28rpx;
+  color: #666;
+}
+.history-item:last-child {
+  border-bottom: none;
+}
+.history-round {
+  font-weight: bold;
+  color: #333;
+  width: 15%;
+}
+.history-vs {
+  width: 85%;
+  text-align: left;
+  padding-left: 20rpx;
+  color: #1A472A;
+  font-weight: bold;
+}

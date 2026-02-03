@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="logo-area">
+    <text class="title">掼蛋大赛计分</text>
+  </view>
+
+  <view class="form-area">
+    <view class="input-group">
+      <input class="input-box" type="password" placeholder="请输入访问密码" bindinput="bindPasswordInput" value="{{password}}" />
+    </view>
+    
+    <button class="btn-primary" bindtap="handleLogin" hover-class="btn-hover">进入系统</button>
+  </view>
+</view>

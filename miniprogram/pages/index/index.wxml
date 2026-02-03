@@ -1,0 +1,31 @@
+<view class="container">
+  <view class="logo-area">
+    <text class="title">掼蛋大赛计分</text>
+  </view>
+
+  <view class="form-area">
+    <picker class="team-picker" range="{{teams}}" range-key="teamName" bindchange="onTeamPickerChange">
+      <view class="picker-content">
+        <text wx:if="{{teamsIndex == -1}}">选择已有队伍 ▼</text>
+        <text wx:else>已选择: {{teams[teamsIndex].teamName}}</text>
+      </view>
+    </picker>
+
+    <input class="input-box" placeholder="或输入新队伍名称" bindinput="bindTeamNameInput" value="{{teamName}}" />
+    
+    <button class="btn-primary" bindtap="handleLogin" hover-class="btn-hover">进入比赛</button>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text" bindtap="goToLeaderboard">查看排行榜 ></text>
+    <view class="reset-link" bindtap="handleResetData">重置数据</view>
+  </view>
+
+  <!-- Reset Data Modal -->
+  <modal hidden="{{!isResetModalOpen}}" title="清空所有数据" confirm-text="确定清空" cancel-text="取消" bindcancel="cancelReset" bindconfirm="confirmReset">
+    <view class="modal-content">
+      <text class="warning-text">警告：此操作将永久删除所有队伍和比赛记录！</text>
+      <input class="modal-input" password="true" placeholder="请输入管理员密码" value="{{resetPassword}}" bindinput="bindResetPasswordInput"/>
+    </view>
+  </modal>
+</view>

@@ -1,0 +1,73 @@
+.container {
+  padding-top: 150rpx;
+}
+.logo-area {
+  margin-bottom: 100rpx;
+}
+.form-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.team-picker {
+  width: 80%;
+  margin-bottom: 20rpx;
+}
+.picker-content {
+  background: white;
+  border: 1rpx solid #ddd;
+  padding: 20rpx;
+  border-radius: 8rpx;
+  text-align: center;
+  color: #333;
+}
+.divider {
+  margin: 40rpx 0;
+  color: #999;
+  font-size: 24rpx;
+}
+.btn-scan {
+  background-color: white;
+  color: #1A472A;
+  border: 2rpx solid #1A472A;
+  border-radius: 8rpx;
+  width: 80%;
+  padding: 20rpx 0;
+  text-align: center;
+  font-size: 32rpx;
+}
+.footer {
+  margin-top: 100rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.footer-text {
+  color: #1A472A;
+  text-decoration: underline;
+  margin-bottom: 20rpx;
+}
+.reset-link {
+  color: #999;
+  font-size: 24rpx;
+  text-decoration: underline;
+}
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.warning-text {
+  color: #ff4d4f;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+.modal-input {
+  border: 1rpx solid #ddd;
+  padding: 10rpx;
+  border-radius: 4rpx;
+  width: 90%;
+  margin-top: 10rpx;
+}
