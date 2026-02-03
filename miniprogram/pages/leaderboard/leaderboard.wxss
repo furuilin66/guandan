@@ -4,12 +4,34 @@
   min-height: 100vh;
   padding-bottom: 120rpx; /* Add padding for bottom button */
 }
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+  position: relative;
+  height: 60rpx; /* 增加固定高度确保对齐 */
+}
+.back-btn {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #1A472A;
+  position: absolute;
+  left: 0;
+  z-index: 100; /* 提高层级 */
+  padding: 10rpx 20rpx 10rpx 0; /* 扩大点击区域 */
+}
+.back-icon {
+  font-size: 32rpx;
+  margin-right: 4rpx;
+}
 .header-title {
+  flex: 1;
   text-align: center;
   font-size: 36rpx;
   font-weight: bold;
   color: #1A472A;
-  margin-bottom: 30rpx;
+  pointer-events: none; /* 防止标题遮挡点击事件 */
 }
 .ranking-list {
   background: white;

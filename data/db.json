@@ -1,79 +1,156 @@
 {
   "teams": [
     {
-      "teamId": "1c1cac83-ca06-4732-a315-b49ce2faa058",
-      "teamName": "狼",
-      "createdAt": "2026-02-03T01:39:02.963Z",
-      "members": "张三、王五"
+      "teamId": "ef9de56b-8b78-4dfe-aed2-3eceb9945193",
+      "teamName": "星星",
+      "createdAt": "2026-02-03T15:31:51.491Z"
     },
     {
-      "teamId": "a27c3829-b70b-4b6d-8747-11c779642dd2",
-      "teamName": "虎",
-      "createdAt": "2026-02-03T01:39:39.105Z"
+      "teamId": "4ae5993c-f307-4aef-8393-5e3048bdf762",
+      "teamName": "阿林",
+      "createdAt": "2026-02-03T15:32:02.126Z"
     },
     {
-      "teamId": "0aa8afa8-29e4-4fb2-8c30-fa7a3c753162",
-      "teamName": "猫",
-      "createdAt": "2026-02-03T01:47:49.955Z"
+      "teamId": "43c48137-3742-4ecb-b3fb-bed834be1f91",
+      "teamName": "轩轩",
+      "createdAt": "2026-02-03T15:34:04.346Z",
+      "members": "选1 轩2"
     },
     {
-      "teamId": "4be2466a-a5b7-4d03-bc4e-d5a07cec212a",
-      "teamName": "兔",
-      "createdAt": "2026-02-03T01:48:11.016Z",
-      "members": "赵六"
+      "teamId": "e5c9d80a-2942-4d49-b083-ce3516195dfa",
+      "teamName": "圆圆",
+      "createdAt": "2026-02-03T15:34:09.958Z",
+      "members": "原1 原2"
     },
     {
-      "teamId": "8327c194-8000-4630-8eb8-03ca3f34ad74",
-      "teamName": "TestTeam",
-      "createdAt": "2026-02-03T07:13:04.562Z",
-      "members": "Alice, Bob"
+      "teamId": "38f5a91b-ac34-4b82-8dc7-179081bf0dba",
+      "teamName": "壮壮",
+      "createdAt": "2026-02-03T15:35:23.176Z"
+    },
+    {
+      "teamId": "294f0f72-8107-4441-a88e-a82d853d3b2a",
+      "teamName": "丽丽",
+      "createdAt": "2026-02-03T15:35:34.571Z"
+    },
+    {
+      "teamId": "2de772a0-d546-4149-899b-bcee6fcc230e",
+      "teamName": "虎虎",
+      "createdAt": "2026-02-03T15:36:09.896Z"
+    },
+    {
+      "teamId": "844b4036-139c-4ce7-82db-b9a882ce4100",
+      "teamName": "狼狼",
+      "createdAt": "2026-02-03T15:36:25.817Z"
     }
   ],
   "matches": [
     {
-      "matchId": "1bd17698-e967-427b-a8bf-a28d22b5c760",
-      "teamId": "1c1cac83-ca06-4732-a315-b49ce2faa058",
+      "matchId": "270067a1-1afc-48e7-9b79-21a1cc72c4a6",
+      "teamId": "ef9de56b-8b78-4dfe-aed2-3eceb9945193",
       "round": 1,
-      "opponentName": "虎",
+      "opponentName": "阿林",
+      "level": 9,
+      "score": 9,
+      "createdAt": "2026-02-03T15:32:35.653Z"
+    },
+    {
+      "matchId": "d7b143bc-8159-4ca6-b18e-c5ce3dbf957e",
+      "teamId": "4ae5993c-f307-4aef-8393-5e3048bdf762",
+      "round": 1,
+      "opponentName": "星星",
+      "level": 7,
+      "score": 7,
+      "createdAt": "2026-02-03T15:32:38.578Z"
+    },
+    {
+      "matchId": "d953ae2a-fff9-4906-a4b4-b48bae27b59f",
+      "teamId": "43c48137-3742-4ecb-b3fb-bed834be1f91",
+      "round": 1,
+      "opponentName": "圆圆",
+      "level": 6,
+      "score": 6,
+      "createdAt": "2026-02-03T15:34:25.135Z"
+    },
+    {
+      "matchId": "86d58ae5-f826-4dd4-94c2-754bf41b5f64",
+      "teamId": "e5c9d80a-2942-4d49-b083-ce3516195dfa",
+      "round": 1,
+      "opponentName": "轩轩",
       "level": 4,
       "score": 4,
-      "createdAt": "2026-02-03T01:39:17.777Z"
+      "createdAt": "2026-02-03T15:34:37.225Z"
     },
     {
-      "matchId": "5892813d-2fb4-41af-9881-ab7e5de30502",
-      "teamId": "a27c3829-b70b-4b6d-8747-11c779642dd2",
+      "matchId": "9041f2a7-cfd8-4f80-9a0a-dce4d4bd203d",
+      "teamId": "294f0f72-8107-4441-a88e-a82d853d3b2a",
       "round": 1,
-      "opponentName": "狼",
-      "level": 2,
-      "score": 2,
-      "createdAt": "2026-02-03T01:41:19.019Z"
+      "opponentName": "壮壮",
+      "level": 5,
+      "score": 5,
+      "createdAt": "2026-02-03T15:35:40.147Z"
     },
     {
-      "matchId": "84bf366f-050a-4203-bbcc-fd4562a1cc53",
-      "teamId": "a27c3829-b70b-4b6d-8747-11c779642dd2",
-      "round": 2,
-      "opponentName": "狼",
-      "level": 10,
-      "score": 10,
-      "createdAt": "2026-02-03T01:41:48.510Z"
-    },
-    {
-      "matchId": "dbdf966d-2f9e-4816-b671-94b973b521fe",
-      "teamId": "4be2466a-a5b7-4d03-bc4e-d5a07cec212a",
+      "matchId": "b2146667-aece-4d3f-a332-8846c53af0e1",
+      "teamId": "38f5a91b-ac34-4b82-8dc7-179081bf0dba",
       "round": 1,
-      "opponentName": "猫",
+      "opponentName": "丽丽",
       "level": 11,
       "score": 11,
-      "createdAt": "2026-02-03T01:48:25.401Z"
+      "createdAt": "2026-02-03T15:35:52.685Z"
     },
     {
-      "matchId": "1c5e4054-f8aa-4f19-95cf-1aa468464aa4",
-      "teamId": "0aa8afa8-29e4-4fb2-8c30-fa7a3c753162",
+      "matchId": "966b0f61-3e05-4315-85a9-566046b6240e",
+      "teamId": "844b4036-139c-4ce7-82db-b9a882ce4100",
       "round": 1,
-      "opponentName": "兔",
+      "opponentName": "虎虎",
+      "level": 7,
+      "score": 7,
+      "createdAt": "2026-02-03T15:36:32.955Z"
+    },
+    {
+      "matchId": "07db83b9-e439-4936-8e8a-3e65b98f9eeb",
+      "teamId": "2de772a0-d546-4149-899b-bcee6fcc230e",
+      "round": 1,
+      "opponentName": "狼狼",
       "level": 4,
       "score": 4,
-      "createdAt": "2026-02-03T01:48:59.211Z"
+      "createdAt": "2026-02-03T15:36:40.157Z"
+    },
+    {
+      "matchId": "21ae56fa-544e-4c2a-b9ab-e1bcf2f26fb1",
+      "teamId": "38f5a91b-ac34-4b82-8dc7-179081bf0dba",
+      "round": 2,
+      "opponentName": "星星",
+      "level": 7,
+      "score": 7,
+      "createdAt": "2026-02-03T15:38:23.687Z"
+    },
+    {
+      "matchId": "23f63563-6a3e-4889-99a9-62335b40adc2",
+      "teamId": "ef9de56b-8b78-4dfe-aed2-3eceb9945193",
+      "round": 2,
+      "opponentName": "壮壮",
+      "level": 9,
+      "score": 9,
+      "createdAt": "2026-02-03T15:39:29.912Z"
+    },
+    {
+      "matchId": "04a05352-de9d-40ed-8869-6e5bb5933a21",
+      "teamId": "4ae5993c-f307-4aef-8393-5e3048bdf762",
+      "round": 2,
+      "opponentName": "狼狼",
+      "level": 5,
+      "score": 5,
+      "createdAt": "2026-02-03T15:42:10.239Z"
+    },
+    {
+      "matchId": "4b4e6180-c5da-4e9a-85ec-475f4b2c122d",
+      "teamId": "844b4036-139c-4ce7-82db-b9a882ce4100",
+      "round": 2,
+      "opponentName": "阿林",
+      "level": 7,
+      "score": 7,
+      "createdAt": "2026-02-03T15:42:36.902Z"
     }
   ]
 }

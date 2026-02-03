@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '@/api';
 import { LeaderboardItem } from '@/types';
+import { ChevronLeft } from 'lucide-react';
 
 export default function Leaderboard() {
+  const navigate = useNavigate();
   const [rankings, setRankings] = useState<LeaderboardItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -33,8 +36,17 @@ export default function Leaderboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="bg-white p-4 shadow-sm mb-4 sticky top-0 z-10">
-        <h1 className="text-xl font-bold text-center text-green-900">排行榜</h1>
+      <div className="bg-white p-4 shadow-sm mb-4 sticky top-0 z-10 flex items-center justify-between">
+        <button 
+          onClick={() => navigate(-1)} 
+          className="p-2 -ml-2 text-green-900 active:opacity-50 transition-opacity relative z-20 flex items-center"
+          title="返回"
+        >
+          <ChevronLeft size={24} />
+          <span className="text-sm font-medium ml-1">返回</span>
+        </button>
+        <h1 className="absolute left-0 right-0 text-xl font-bold text-center text-green-900 pointer-events-none">排行榜</h1>
+        <div className="w-16"></div> {/* 占位符，保持平衡 */}
       </div>
 
       <div className="px-2">

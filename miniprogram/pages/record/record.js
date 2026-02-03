@@ -26,7 +26,8 @@ Page({
     selectedLevel: null,
     isEditingTeam: false,
     newTeamName: '',
-    matchHistory: []
+    matchHistory: [],
+    submitting: false
   },
 
   onLoad() {
@@ -106,7 +107,10 @@ Page({
   },
 
   handleSubmit() {
-    const { roundIndex, opponentName, selectedLevel } = this.data;
+    const { roundIndex, opponentName, selectedLevel, matchHistory, submitting } = this.data;
+    
+    if (submitting) return;
+
     if (!selectedLevel) {
       wx.showToast({ title: '请选择本局得分', icon: 'none' });
       return;
@@ -117,7 +121,27 @@ Page({
     }
 
     const round = parseInt(roundIndex) + 1;
+    const existingMatch = Array.isArray(matchHistory) 
+      ? matchHistory.find(m => Number(m.round) === Number(round))
+      : null;
 
+    if (existingMatch) {
+      wx.showModal({
+        title: '提示',
+        content: `已提交过第${round}轮成绩，本次提交将覆盖之前第${round}轮提交的成绩，是否继续？`,
+        success: (res) => {
+          if (res.confirm) {
+            this.doSubmit(round, opponentName, selectedLevel);
+          }
+        }
+      });
+    } else {
+      this.doSubmit(round, opponentName, selectedLevel);
+    }
+  },
+
+  doSubmit(round, opponentName, selectedLevel) {
+    this.setData({ submitting: true });
     wx.showLoading({ title: '提交中...' });
 
     wx.request({
@@ -154,6 +178,9 @@ Page({
       fail: () => {
         wx.hideLoading();
         wx.showToast({ title: '网络错误', icon: 'none' });
+      },
+      complete: () => {
+        this.setData({ submitting: false });
       }
     })
   },

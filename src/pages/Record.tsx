@@ -35,6 +35,8 @@ export default function Record() {
   const [newTeamName, setNewTeamName] = useState('');
   const [members, setMembers] = useState('');
   const [isEditingMembers, setIsEditingMembers] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const setTeamInfo = useStore((state) => state.setTeamInfo);
 
   useEffect(() => {
@@ -71,7 +73,8 @@ export default function Record() {
   };
 
   const handleSubmit = async () => {
-    if (!teamInfo) return;
+    if (!teamInfo || submitting) return;
+    
     if (!selectedLevel) {
       alert('请选择本局得分');
       return;
@@ -81,22 +84,42 @@ export default function Record() {
       return;
     }
 
+    const currentRound = Number(roundIndex) + 1;
+    // 确保 matchHistory 是数组再查找
+    const existingMatch = Array.isArray(matchHistory) 
+      ? matchHistory.find(m => Number(m.round) === currentRound)
+      : null;
+
+    if (existingMatch) {
+      setShowConfirmModal(true);
+      return;
+    }
+
+    await executeSubmit();
+  };
+
+  const executeSubmit = async () => {
+    setSubmitting(true);
+    setShowConfirmModal(false);
     try {
+      const currentRound = Number(roundIndex) + 1;
       await api.recordMatch({
-        teamId: teamInfo.teamId,
-        round: roundIndex + 1,
+        teamId: teamInfo!.teamId,
+        round: currentRound,
         opponentName,
-        level: selectedLevel
+        level: selectedLevel!
       });
       alert('提交成功');
       // Reset form
       setOpponentName('');
       setSelectedLevel(null);
       // Refresh history
-      const historyData = await api.getTeamMatches(teamInfo.teamId);
-      setMatchHistory(historyData.matches);
+      const historyData = await api.getTeamMatches(teamInfo!.teamId);
+      setMatchHistory(historyData.matches || []);
     } catch (error: any) {
       alert(error.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -211,10 +234,39 @@ export default function Record() {
 
       <button
         onClick={handleSubmit}
-        className="w-full h-12 bg-green-800 text-white rounded-lg text-lg font-medium active:bg-green-900 mb-8"
+        disabled={submitting}
+        className={`w-full h-12 text-white rounded-lg text-lg font-medium mb-8 ${
+          submitting ? 'bg-gray-400' : 'bg-green-800 active:bg-green-900'
+        }`}
       >
-        提交成绩
+        {submitting ? '提交中...' : '提交成绩'}
       </button>
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl animate-in fade-in zoom-in duration-200">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">确认覆盖成绩？</h3>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              您已提交过第<span className="font-bold text-green-800">{Number(roundIndex) + 1}</span>轮成绩。本次提交将覆盖之前的记录，是否继续？
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="flex-1 h-12 rounded-lg border border-gray-200 text-gray-600 font-medium active:bg-gray-50"
+              >
+                取消
+              </button>
+              <button
+                onClick={executeSubmit}
+                className="flex-1 h-12 rounded-lg bg-green-800 text-white font-medium active:bg-green-900 shadow-lg shadow-green-800/20"
+              >
+                确认覆盖
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {matchHistory.length > 0 && (
         <div className="mt-4">

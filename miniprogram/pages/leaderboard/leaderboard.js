@@ -9,6 +9,10 @@ Page({
     this.fetchLeaderboard();
   },
 
+  goBack() {
+    wx.navigateBack();
+  },
+
   onPullDownRefresh() {
     this.fetchLeaderboard(() => {
       wx.stopPullDownRefresh();
