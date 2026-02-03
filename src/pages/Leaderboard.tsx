@@ -22,7 +22,13 @@ export default function Leaderboard() {
   };
 
   const handleExport = () => {
-    window.location.href = api.getExportUrl();
+    const url = api.getExportUrl();
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `排行榜-${new Date().getTime()}.xlsx`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (

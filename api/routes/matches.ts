@@ -60,22 +60,25 @@ router.get('/leaderboard', (req, res) => {
 
 // Export Leaderboard to Excel
 router.get('/leaderboard/export', (req, res) => {
+  console.log('Exporting leaderboard...');
   try {
     const rankings = db.getLeaderboard();
+    console.log(`Found ${rankings.length} teams to export`);
     
     // Transform data for Excel
     const data = rankings.map(item => {
       const row: any = {
         '排名': item.rank,
         '队伍名称': item.teamName,
+        '参赛选手': item.members || '',
         '总分': item.totalScore
       };
       
       // Add rounds details
       item.rounds.forEach(round => {
         const roundKey = `第${round.round}轮`;
-        const opponentScoreStr = round.opponentScore ? `(${round.opponentScore})` : '';
-        row[roundKey] = `${round.score} vs ${round.opponent}${opponentScoreStr}`;
+        const opponentScoreStr = round.opponentScore !== null ? `(${round.opponentScore})` : '';
+        row[roundKey] = `${item.teamName}(${round.score}) VS ${round.opponent}${opponentScoreStr}`;
       });
       
       return row;
@@ -89,6 +92,7 @@ router.get('/leaderboard/export', (req, res) => {
     const colWidths = [
       { wch: 8 },  // Rank
       { wch: 20 }, // Team Name
+      { wch: 30 }, // Members
       { wch: 10 }, // Total Score
       { wch: 30 }, // Round 1
       { wch: 30 }, // Round 2
@@ -102,9 +106,10 @@ router.get('/leaderboard/export', (req, res) => {
     const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
     
     // Send file
+    const fileName = `leaderboard-${new Date().getTime()}.xlsx`;
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-Disposition', `attachment; filename=leaderboard-${new Date().getTime()}.xlsx`);
-    res.send(buffer);
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+    res.end(buffer);
     
   } catch (error: any) {
     console.error('Export error:', error);
